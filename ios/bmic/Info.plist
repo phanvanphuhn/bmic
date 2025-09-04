@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.jeff.phan.bmic</string>
+          <string>com.bmic.ai</string>
         </array>
       </dict>
     </array>
