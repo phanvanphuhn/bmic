@@ -1,4 +1,4 @@
-package com.jeff.phan.bmic
+package com.bmic.ai
 
 import android.app.Application
 import android.content.res.Configuration

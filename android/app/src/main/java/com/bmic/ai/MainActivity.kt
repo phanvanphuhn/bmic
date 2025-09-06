@@ -1,4 +1,4 @@
-package com.jeff.phan.bmic
+package com.bmic.ai
 
 import android.os.Build
 import android.os.Bundle
