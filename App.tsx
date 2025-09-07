@@ -127,39 +127,39 @@ function AppContent() {
   const tokenomicData = [
     {
       id: 1,
-      title: "Public Launch",
+      title: "Pre Sale",
       total: "300",
-      percent: "30%",
+      percent: "50%",
     },
     {
       id: 2,
-      title: "Ecosystem Grants",
+      title: "Rewards & Staking",
       total: "250",
-      percent: "25%",
+      percent: "18%",
     },
     {
       id: 3,
-      title: "Team & Advisors",
+      title: "Liquidity & Exchanges",
       total: "200",
-      percent: "20%",
-    },
-    {
-      id: 4,
-      title: "Strategic Partnerships",
-      total: "150",
       percent: "15%",
     },
     {
+      id: 4,
+      title: "Team",
+      total: "150",
+      percent: "3%",
+    },
+    {
       id: 5,
-      title: "Reserve / Liquidity",
+      title: "Ecosystem Reserve",
       total: "100",
-      percent: "10%",
+      percent: "8%",
     },
     {
       id: 6,
-      title: "Total",
+      title: "Marketing",
       total: "1,500",
-      percent: "100%",
+      percent: "6%",
     },
   ];
 
@@ -475,9 +475,9 @@ function AppContent() {
               <View style={{ width: "50%", justifyContent: "flex-start" }}>
                 <Text style={styles.subtitle}>Category</Text>
               </View>
-              <View style={{ width: "30%", alignItems: "flex-end" }}>
+              {/* <View style={{ width: "30%", alignItems: "flex-end" }}>
                 <Text style={styles.subtitle}>Million</Text>
-              </View>
+              </View> */}
               <View style={{ width: "20%", alignItems: "flex-end" }}>
                 <Text style={styles.subtitle}>%</Text>
               </View>
@@ -494,10 +494,10 @@ function AppContent() {
                     borderBottomWidth: 1,
                     borderBottomColor: "#71717b",
                   },
-                  tokenomicItem.id === tokenomicData.length && {
-                    borderBottomWidth: 0,
-                    backgroundColor: "#71717b",
-                  },
+                  // tokenomicItem.id === tokenomicData.length && {
+                  //   borderBottomWidth: 0,
+                  //   backgroundColor: "#71717b",
+                  // },
                 ]}
               >
                 <View style={{ width: "50%", justifyContent: "flex-start" }}>
@@ -512,7 +512,7 @@ function AppContent() {
                     {tokenomicItem.title}
                   </Text>
                 </View>
-                <View style={{ width: "30%", alignItems: "flex-end" }}>
+                {/* <View style={{ width: "30%", alignItems: "flex-end" }}>
                   <Text
                     style={[
                       styles.subtitle,
@@ -523,7 +523,7 @@ function AppContent() {
                   >
                     {tokenomicItem.total}
                   </Text>
-                </View>
+                </View> */}
                 <View style={{ width: "20%", alignItems: "flex-end" }}>
                   <Text
                     style={[
