@@ -631,7 +631,7 @@ function AppContent() {
         ]}
         onPress={onSeeMore}
       >
-        <Text style={styles.subtitle}>See More Information</Text>
+        <Text style={styles.subtitle}>See More Information!</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

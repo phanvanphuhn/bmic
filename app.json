@@ -2,7 +2,7 @@
   "expo": {
     "name": "BMIC",
     "slug": "bmic",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/appIcon.png",
     "userInterfaceStyle": "light",
@@ -14,7 +14,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bmic.ai"
+      "bundleIdentifier": "com.bmic.ai",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +26,11 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.bmic.ai"
+      "package": "com.bmic.ai",
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,7 +41,7 @@
       }
     },
     "owner": "impt-io",
-    "runtimeVersion": "1.0.1",
+    "runtimeVersion": "1.0.2",
     "updates": {
       "url": "https://u.expo.dev/8075c1db-4c0d-42b6-87c3-bcd7c4b60f9c"
     }

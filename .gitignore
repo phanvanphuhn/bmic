@@ -35,3 +35,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# firebase
+google-services.json
+GoogleService-Info.plist
+bmic-9d647-adc6e9632525.json
