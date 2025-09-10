@@ -219,7 +219,7 @@ export default function MainAppScreen({ navigation }: MainAppScreenProps) {
     {
       id: 2,
       title: "Phase 2: Testnet Expansion",
-      description: "Q2 2024 - Q3 2024",
+      description: "Q2 2025 - Q3 2025",
       items: [
         {
           id: 1,
@@ -242,7 +242,7 @@ export default function MainAppScreen({ navigation }: MainAppScreenProps) {
     {
       id: 3,
       title: "Phase 3: Mainet Launch",
-      description: "Q4 2024 - Q1 2025",
+      description: "Q4 2025 - Q1 2026",
       items: [
         {
           id: 1,
@@ -265,7 +265,7 @@ export default function MainAppScreen({ navigation }: MainAppScreenProps) {
     {
       id: 4,
       title: "Phase 4: Optimization",
-      description: "Q4 2024 - Q1 2025",
+      description: "Ongoing",
       items: [
         {
           id: 1,
