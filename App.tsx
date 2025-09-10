@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,6 +16,8 @@ import {
 } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "expo-image";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
+import * as Notifications from "expo-notifications";
 import CentralIcon from "./assets/centralIcon.png";
 import QuantumIcon from "./assets/quantumIcon.png";
 import AiComputeIcon from "./assets/aiComputeIcon.png";
@@ -42,6 +44,38 @@ type TSolutions = {
 
 function AppContent() {
   const insets = useSafeAreaInsets();
+
+  // Request tracking transparency and notifications permissions
+  useEffect(() => {
+    const requestPermissions = async () => {
+      try {
+        // Request tracking transparency permission first
+        const trackingStatus = await requestTrackingPermissionsAsync();
+        console.log("Tracking permission status:", trackingStatus.status);
+
+        if (trackingStatus.status === "granted") {
+          console.log("Yay! I have user permission to track data");
+        }
+
+        // Then request notifications permission
+        const notificationSettings = await Notifications.getPermissionsAsync();
+        if (!notificationSettings.granted) {
+          const { status } = await Notifications.requestPermissionsAsync();
+          console.log("Notification permission status:", status);
+
+          if (status === "granted") {
+            console.log("Yay! I have user permission to send notifications");
+          }
+        } else {
+          console.log("Notifications already granted");
+        }
+      } catch (error) {
+        console.error("Error requesting permissions:", error);
+      }
+    };
+
+    requestPermissions();
+  }, []);
 
   const problems: TProblems[] = [
     {
@@ -631,7 +665,7 @@ function AppContent() {
         ]}
         onPress={onSeeMore}
       >
-        <Text style={styles.subtitle}>See More Information!</Text>
+        <Text style={styles.subtitle}>See More Information</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

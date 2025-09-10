@@ -44,6 +44,14 @@
     "runtimeVersion": "1.0.2",
     "updates": {
       "url": "https://u.expo.dev/8075c1db-4c0d-42b6-87c3-bcd7c4b60f9c"
-    }
+    },
+    "plugins": [
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads and improve your experience with quantum computing services."
+        }
+      ]
+    ]
   }
 }
