@@ -12,6 +12,7 @@ import { StatusBar } from "expo-status-bar";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import type { NavigationProp } from "@react-navigation/native";
+import Header from "../components/header";
 import AppIcon from "../../../assets/appIcon.png";
 
 const Tokenomic = () => {
@@ -62,21 +63,13 @@ const Tokenomic = () => {
   return (
     <SafeAreaView style={styles.f1}>
       <StatusBar style="light" />
+      {/* Header with back button */}
+      <Header title="Tokenomics" onBackPress={onGoBack} titleColor="#FFD700" />
       <ScrollView
         style={[styles.container, styles.f1]}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
       >
-        {/* Header with back button */}
-        <View style={[styles.row, styles.spaceBetween, { marginBottom: 24 }]}>
-          <TouchableOpacity onPress={onGoBack}>
-            <AntDesign name="left" size={24} color="white" />
-          </TouchableOpacity>
-
-          <Text style={[styles.title, { color: "#FFD700" }]}>Tokenomics</Text>
-          <View style={{ width: 24 }} />
-        </View>
-
         <Text
           style={[
             styles.subtitle,

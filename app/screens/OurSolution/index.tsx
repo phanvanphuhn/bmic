@@ -14,6 +14,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { TSolutions } from "../../models";
 import { useNavigation } from "@react-navigation/native";
 import type { NavigationProp } from "@react-navigation/native";
+import Header from "../components/header";
 import CentralIcon from "../../../assets/centralIcon.png";
 import BlockchainAcpIcon from "../../../assets/blockchainAcpIcon.png";
 import AiLayerIcon from "../../../assets/aiLayerIcon.png";
@@ -51,21 +52,13 @@ const OurSolution = () => {
   return (
     <SafeAreaView style={styles.f1}>
       <StatusBar style="light" />
+      {/* Header with back button */}
+      <Header title="Our Solution" onBackPress={onGoBack} />
       <ScrollView
         style={[styles.container, styles.f1]}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
       >
-        {/* Header with back button */}
-        <View style={[styles.row, styles.spaceBetween, { marginBottom: 24 }]}>
-          <TouchableOpacity onPress={onGoBack}>
-            <AntDesign name="left" size={24} color="white" />
-          </TouchableOpacity>
-
-          <Text style={[styles.title]}>Our Solution</Text>
-          <View style={{ width: 24 }} />
-        </View>
-
         <View style={[{ gap: 16 }]}>
           {solutions.map((solution: TSolutions) => (
             <View key={solution.id} style={styles.card}>

@@ -11,6 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import type { NavigationProp } from "@react-navigation/native";
+import Header from "../components/header";
 
 const InvestmentOpportunity = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -45,21 +46,13 @@ const InvestmentOpportunity = () => {
   return (
     <SafeAreaView style={styles.f1}>
       <StatusBar style="light" />
+      {/* Header with back button */}
+      <Header title="Investment Opportunity" onBackPress={onGoBack} />
       <ScrollView
         style={[styles.container, styles.f1]}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
       >
-        {/* Header with back button */}
-        <View style={[styles.row, styles.spaceBetween, { marginBottom: 24 }]}>
-          <TouchableOpacity onPress={onGoBack}>
-            <AntDesign name="left" size={24} color="white" />
-          </TouchableOpacity>
-
-          <Text style={[styles.title]}>Investment Opportunity</Text>
-          <View style={{ width: 24 }} />
-        </View>
-
         <View style={{ gap: 16 }}>
           {investmentData.map((investmentItem) => (
             <View key={investmentItem.id} style={styles.investmentContainer}>
