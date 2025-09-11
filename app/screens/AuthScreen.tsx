@@ -14,6 +14,7 @@ import AppIcon from "../../assets/appIcon.png";
 import QuantumGif from "../../assets/quanTum.gif";
 import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import * as Notifications from "expo-notifications";
+import { ROUTES } from "../consts/Routes";
 
 const { width, height } = Dimensions.get("window");
 
@@ -23,7 +24,7 @@ interface AuthScreenProps {
 
 export default function AuthScreen({ navigation }: AuthScreenProps) {
   const handleLetBMIC = () => {
-    navigation.replace("MainApp");
+    navigation.replace(ROUTES.MAIN_TABS);
   };
 
   // Request tracking transparency and notifications permissions
