@@ -12,13 +12,16 @@ import {
 } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Toast from "react-native-toast-message";
 
 import { ROUTES } from "../../consts/Routes";
 import { useNavigation } from "@react-navigation/native";
+import { useAuthStore } from "../../stores/authStore";
 
 const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const { currentUser, signOut } = useAuthStore();
 
   const profileData = [
     {
@@ -59,9 +62,18 @@ const ProfileScreen = () => {
   };
 
   const onLogout = () => {
+    // Trigger logout actions immediately
+    signOut();
     navigation.reset({
       index: 0,
       routes: [{ name: ROUTES.AUTH as never }],
+    });
+
+    // Show success toast
+    Toast.show({
+      type: "success",
+      text1: "Logged out",
+      text2: "You have been successfully logged out",
     });
   };
 
@@ -86,8 +98,18 @@ const ProfileScreen = () => {
           <View style={styles.avatar}>
             <AntDesign name="user" size={40} color="#fff" />
           </View>
-          <Text style={styles.profileName}>BMIC User</Text>
-          <Text style={styles.profileEmail}>user@bmic.ai</Text>
+          <Text style={styles.profileName}>
+            {currentUser ? currentUser.email.split("@")[0] : "BMIC User"}
+          </Text>
+          <Text style={styles.profileEmail}>
+            {currentUser ? currentUser.email : "user@bmic.ai"}
+          </Text>
+          {currentUser && (
+            <Text style={styles.memberSince}>
+              Member since{" "}
+              {new Date(currentUser.createdAt).toLocaleDateString()}
+            </Text>
+          )}
         </View>
 
         {/* Profile Options */}
@@ -169,6 +191,12 @@ const styles = StyleSheet.create({
   profileEmail: {
     fontSize: 16,
     color: "#71717b",
+  },
+  memberSince: {
+    fontSize: 14,
+    color: "#3fe0c5",
+    marginTop: 8,
+    fontWeight: "500",
   },
   optionsContainer: {
     marginBottom: 32,
