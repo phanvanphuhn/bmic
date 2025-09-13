@@ -5,6 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
+  Linking,
 } from "react-native";
 import {
   SafeAreaView,
@@ -13,15 +15,18 @@ import {
 import { StatusBar } from "expo-status-bar";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Toast from "react-native-toast-message";
+import * as ImagePicker from "expo-image-picker";
+import { Image as ExpoImage } from "expo-image";
 
 import { ROUTES } from "../../consts/Routes";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../../stores/authStore";
+import AppInfoScreen from "../AppInfoScreen";
 
 const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const { currentUser, signOut } = useAuthStore();
+  const { currentUser, signOut, updateAvatar } = useAuthStore();
 
   const profileData = [
     {
@@ -38,15 +43,16 @@ const ProfileScreen = () => {
     },
     {
       id: 3,
-      title: "Security",
+      title: "White Paper",
       icon: "lock",
-      description: "Security settings and privacy",
+      description:
+        "Powering the Decentralized Quantum Cloud for the AI + Crypto Era",
     },
     {
       id: 4,
-      title: "Help & Support",
+      title: "Blog",
       icon: "questioncircle",
-      description: "Get help and contact support",
+      description: "Blog",
     },
     {
       id: 5,
@@ -58,7 +64,26 @@ const ProfileScreen = () => {
 
   const onItemPress = (item: any) => {
     // Handle item press - you can add navigation logic here
-    console.log(`Pressed: ${item.title}`);
+    switch (item.title) {
+      case "Account Settings":
+        navigation.navigate(ROUTES.ACCOUNT_SETTINGS as never);
+        break;
+      case "Notifications":
+        navigation.navigate(ROUTES.NOTIFICATION_SETTINGS as never);
+        break;
+      case "About":
+        navigation.navigate(ROUTES.APP_INFO as never);
+        break;
+      case "White Paper":
+        void Linking.openURL("https://bmic.gitbook.io/whitepaper/");
+        break;
+      case "Blog":
+        void Linking.openURL("https://bmic.ai/blog/");
+        break;
+      default:
+        console.log(item.title);
+        break;
+    }
   };
 
   const onLogout = () => {
@@ -75,6 +100,86 @@ const ProfileScreen = () => {
       text1: "Logged out",
       text2: "You have been successfully logged out",
     });
+  };
+
+  const onAvatar = () => {
+    Alert.alert("Select Avatar", "Choose how you want to set your avatar", [
+      {
+        text: "Camera",
+        onPress: () => pickImage("camera"),
+      },
+      {
+        text: "Photo Library",
+        onPress: () => pickImage("library"),
+      },
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+    ]);
+  };
+
+  const pickImage = async (source: "camera" | "library") => {
+    try {
+      let result;
+
+      if (source === "camera") {
+        // Request camera permissions
+        const cameraPermission =
+          await ImagePicker.requestCameraPermissionsAsync();
+        if (cameraPermission.status !== "granted") {
+          Toast.show({
+            type: "error",
+            text1: "Permission Required",
+            text2: "Camera permission is needed to take photos",
+          });
+          return;
+        }
+
+        result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.8,
+        });
+      } else {
+        // Request media library permissions
+        const libraryPermission =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (libraryPermission.status !== "granted") {
+          Toast.show({
+            type: "error",
+            text1: "Permission Required",
+            text2: "Photo library permission is needed to select photos",
+          });
+          return;
+        }
+
+        result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.8,
+        });
+      }
+
+      if (!result.canceled && result.assets[0]) {
+        const avatarUri = result.assets[0].uri;
+        updateAvatar(avatarUri);
+        Toast.show({
+          type: "success",
+          text1: "Avatar Updated",
+          text2: "Your profile picture has been updated",
+        });
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Failed to update avatar. Please try again.",
+      });
+    }
   };
 
   return (
@@ -95,9 +200,20 @@ const ProfileScreen = () => {
 
         {/* Profile Info */}
         <View style={styles.profileInfo}>
-          <View style={styles.avatar}>
-            <AntDesign name="user" size={40} color="#fff" />
-          </View>
+          <TouchableOpacity style={styles.avatar} onPress={onAvatar}>
+            {currentUser?.avatar ? (
+              <ExpoImage
+                source={{ uri: currentUser.avatar }}
+                style={styles.avatarImage}
+                contentFit="cover"
+              />
+            ) : (
+              <AntDesign name="user" size={40} color="#fff" />
+            )}
+            <View style={styles.avatarEditIcon}>
+              <AntDesign name="camera" size={16} color="#fff" />
+            </View>
+          </TouchableOpacity>
           <Text style={styles.profileName}>
             {currentUser ? currentUser.email.split("@")[0] : "BMIC User"}
           </Text>
@@ -119,7 +235,6 @@ const ProfileScreen = () => {
               key={item.id}
               style={styles.optionItem}
               onPress={() => onItemPress(item)}
-              disabled
             >
               <View style={styles.optionLeft}>
                 <View style={styles.iconContainer}>
@@ -174,13 +289,32 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 160,
+    height: 160,
+    borderRadius: 80,
     backgroundColor: "#9810fa",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 16,
+    position: "relative",
+  },
+  avatarImage: {
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+  },
+  avatarEditIcon: {
+    position: "absolute",
+    bottom: 8,
+    right: 8,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#3fe0c5",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "#000",
   },
   profileName: {
     fontSize: 24,
@@ -210,6 +344,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#18181b",
     borderRadius: 12,
     marginBottom: 12,
+    gap: 8,
   },
   optionLeft: {
     flexDirection: "row",

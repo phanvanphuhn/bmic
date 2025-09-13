@@ -7,6 +7,7 @@ export interface Account {
   email: string;
   password: string;
   createdAt: Date;
+  avatar?: string;
 }
 
 interface AuthState {
@@ -29,6 +30,12 @@ interface AuthState {
   
   // Check if email exists
   emailExists: (email: string) => boolean;
+  
+  // Avatar management
+  updateAvatar: (avatarUri: string) => void;
+  
+  // Account management
+  deleteAccount: (accountId: string) => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -105,6 +112,44 @@ export const useAuthStore = create<AuthState>()(
         return accounts.some(
           (acc) => acc.email.toLowerCase() === email.toLowerCase()
         );
+      },
+
+      updateAvatar: (avatarUri: string) => {
+        const { currentUser } = get();
+        if (currentUser) {
+          // Update current user's avatar
+          const updatedUser = { ...currentUser, avatar: avatarUri };
+          set({ currentUser: updatedUser });
+          
+          // Update the account in the accounts array
+          set((state) => ({
+            accounts: state.accounts.map((acc) =>
+              acc.id === currentUser.id ? { ...acc, avatar: avatarUri } : acc
+            ),
+          }));
+        }
+      },
+
+      deleteAccount: (accountId: string) => {
+        const { currentUser, accounts } = get();
+        
+        // Check if the account exists
+        const accountExists = accounts.some(acc => acc.id === accountId);
+        if (!accountExists) {
+          return false;
+        }
+
+        // Remove the account from the accounts array
+        set((state) => ({
+          accounts: state.accounts.filter((acc) => acc.id !== accountId),
+        }));
+
+        // If the deleted account is the current user, sign them out
+        if (currentUser && currentUser.id === accountId) {
+          set({ currentUser: null });
+        }
+
+        return true;
       },
     }),
     {

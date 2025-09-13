@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import HomeStack from "./HomeStack";
-import ProfileScreen from "../screens/ProfileScreen/index";
+import ProfileStack from "./ProfileStack";
 import { ROUTES } from "../consts/Routes";
 
 const Tab = createBottomTabNavigator();
@@ -41,7 +41,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name={ROUTES.PROFILE_TAB}
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
