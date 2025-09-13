@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import HomeStack from "./HomeStack";
+import MainEventStack from "./MainEventStack";
 import ProfileStack from "./ProfileStack";
 import { ROUTES } from "../consts/Routes";
 
@@ -36,6 +37,16 @@ const BottomTabNavigator = () => {
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <AntDesign name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={ROUTES.MAIN_EVENT_TAB}
+        component={MainEventStack}
+        options={{
+          tabBarLabel: "Events",
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+            <AntDesign name="calendar" size={size} color={color} />
           ),
         }}
       />
