@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,9 +14,10 @@ import {
 } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
-import type { NavigationProp } from "@react-navigation/native";
-import QuantumGif from "../../assets/quanTum.gif";
+import { VideoView, useVideoPlayer } from "expo-video";
+import { useEvent } from "expo";
+import { useNavigation, type NavigationProp } from "@react-navigation/native";
+import QuantumMp4 from "../../assets/quanTum.mp4";
 import WhyBmicGif from "../../assets/whyBmic.gif";
 import { ROUTES } from "../consts/Routes";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -24,6 +25,17 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 export default function MainAppScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
   const insets = useSafeAreaInsets();
+
+  // Video player state management
+  const videoPlayer = useVideoPlayer(QuantumMp4, (player) => {
+    player.loop = true;
+    player.muted = true; // Start muted for better UX
+  });
+
+  // Track video playing state
+  const { isPlaying } = useEvent(videoPlayer, "playingChange", {
+    isPlaying: videoPlayer.playing,
+  });
 
   const navigationItems = [
     {
@@ -66,6 +78,10 @@ export default function MainAppScreen() {
     void Linking.openURL("https://bmic.ai/");
   };
 
+  useEffect(() => {
+    videoPlayer.play();
+  }, []);
+
   return (
     <SafeAreaView style={[styles.f1, { marginBottom: -insets.bottom }]}>
       <StatusBar style="light" />
@@ -79,12 +95,15 @@ export default function MainAppScreen() {
           Powering the Decentralized Quantum Cloud
         </Text>
         <Text style={styles.subtitle}>for the AI and Crypto Era</Text>
-        <Image
-          source={QuantumGif}
-          style={styles.quantumImage}
-          contentFit="cover"
-          transition={1000}
-        />
+        <View style={styles.videoContainer}>
+          <VideoView
+            player={videoPlayer}
+            style={styles.quantumImage}
+            contentFit="contain"
+            allowsFullscreen
+            allowsPictureInPicture
+          />
+        </View>
         <Text style={styles.description}>
           BMICis building theworld's firstdecentralized quantum compute network,
           secured by blockchain and orchestrated by AI.
@@ -180,10 +199,25 @@ const styles = StyleSheet.create({
     margin: 16,
     alignItems: "center",
   },
+  videoContainer: {
+    position: "relative",
+    marginVertical: 8,
+  },
   quantumImage: {
     width: "100%",
     height: 200,
-    marginVertical: 8,
+  },
+  playButton: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -20 }, { translateY: -20 }],
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
   whyBmicImage: {
     width: "100%",

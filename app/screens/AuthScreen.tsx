@@ -16,11 +16,13 @@ import { Image as ExpoImage } from "expo-image";
 import { useForm, Controller } from "react-hook-form";
 import Toast from "react-native-toast-message";
 import AppIcon from "../../assets/appIcon.png";
-import QuantumGif from "../../assets/quanTum.gif";
+import QuantumMp4 from "../../assets/quanTum.mp4";
 import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import * as Notifications from "expo-notifications";
 import { ROUTES } from "../consts/Routes";
 import { useAuthStore } from "../stores/authStore";
+import { VideoView, useVideoPlayer } from "expo-video";
+import { useEvent } from "expo";
 
 const { width, height } = Dimensions.get("window");
 
@@ -50,6 +52,17 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
       password: "",
       confirmPassword: "",
     },
+  });
+
+  // Video player state management
+  const videoPlayer = useVideoPlayer(QuantumMp4, (player) => {
+    player.loop = true;
+    player.muted = true; // Start muted for better UX
+  });
+
+  // Track video playing state
+  const { isPlaying } = useEvent(videoPlayer, "playingChange", {
+    isPlaying: videoPlayer.playing,
   });
 
   const password = watch("password");
@@ -159,6 +172,10 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
     requestPermissions();
   }, []);
 
+  useEffect(() => {
+    videoPlayer.play();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
@@ -188,12 +205,13 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
           </View>
 
           {/* Quantum Animation */}
-          <View style={styles.animationContainer}>
-            <ExpoImage
-              source={QuantumGif}
+          <View style={styles.videoContainer}>
+            <VideoView
+              player={videoPlayer}
               style={styles.quantumImage}
-              contentFit="cover"
-              transition={1000}
+              contentFit="contain"
+              allowsFullscreen
+              allowsPictureInPicture
             />
           </View>
 
@@ -367,7 +385,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   quantumImage: {
-    width: width * 0.8,
     height: 200,
     borderRadius: 16,
   },
@@ -460,5 +477,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     letterSpacing: 1,
+  },
+  videoContainer: {
+    position: "relative",
+    marginVertical: 8,
   },
 });
