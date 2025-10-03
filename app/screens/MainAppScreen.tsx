@@ -42,31 +42,37 @@ export default function MainAppScreen() {
       id: 1,
       title: "The Problem",
       screenName: ROUTES.THE_PROBLEM,
+      description: "Centralization in Quantum Access",
     },
     {
       id: 2,
       title: "Our Solution",
       screenName: ROUTES.OUR_SOLUTION,
+      description: "Decentralized Quantum Cloud",
     },
     {
       id: 3,
-      title: "Why choose BMIC token?",
+      title: "Why Choose BMIC Token?",
       screenName: ROUTES.WHY_CHOOSE_BMIC,
+      description: "Compute Payments & Staking Rewards",
     },
     {
       id: 4,
       title: "Tokenomics",
       screenName: ROUTES.TOKENOMIC,
+      description: "1.5B Token Supply",
     },
     {
       id: 5,
       title: "Investment Opportunity",
       screenName: ROUTES.INVESTMENT_OPPORTUNITY,
+      description: "Join the Quantum Revolution",
     },
     {
       id: 6,
       title: "Roadmap",
       screenName: ROUTES.ROADMAP,
+      description: "Phase 1-4 Development Plan",
     },
   ];
 
@@ -90,41 +96,62 @@ export default function MainAppScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
       >
-        {/* Header */}
-        <Text style={[styles.title, { fontSize: 32 }]}>
-          Powering the Decentralized Quantum Cloud
-        </Text>
-        <Text style={styles.subtitle}>for the AI and Crypto Era</Text>
-        <View style={styles.videoContainer}>
-          <VideoView
-            player={videoPlayer}
-            style={styles.quantumImage}
-            contentFit="contain"
-            allowsFullscreen
-            allowsPictureInPicture
-          />
+        {/* Hero Section */}
+        <View style={styles.heroSection}>
+          <Text style={styles.heroTitle}>
+            Powering the{"\n"}Decentralized{"\n"}Quantum Cloud
+          </Text>
+          <Text style={styles.heroSubtitle}>for the AI and Crypto Era</Text>
+          <View style={styles.videoContainer}>
+            <VideoView
+              player={videoPlayer}
+              style={styles.quantumImage}
+              contentFit="contain"
+              allowsFullscreen
+              allowsPictureInPicture
+            />
+          </View>
+          <Text style={styles.heroDescription}>
+            BMIC is building the world's first decentralized quantum compute
+            network, secured by blockchain and orchestrated by AI.
+          </Text>
         </View>
-        <Text style={styles.description}>
-          BMICis building theworld's firstdecentralized quantum compute network,
-          secured by blockchain and orchestrated by AI.
-        </Text>
-        {/* Why BMIC? */}
-        <View style={[{ marginTop: 16, gap: 8 }]}>
+
+        {/* Presale Section */}
+        {/* <View style={styles.presaleSection}>
+          <Text style={styles.presaleTitle}>Buy Now</Text>
+          <Text style={styles.presaleSubtitle}>Before Price Rises</Text>
+          <View style={styles.priceContainer}>
+            <Text style={styles.priceLabel}>1 $MIC = $0.1000</Text>
+            <Text style={styles.nextPriceLabel}>Next Price: $0.1030</Text>
+          </View>
+          <View style={styles.paymentOptions}>
+            <View style={styles.paymentOption}>
+              <Text style={styles.paymentText}>🔷 ETH</Text>
+            </View>
+            <View style={styles.paymentOption}>
+              <Text style={styles.paymentText}>🟢 USDT</Text>
+            </View>
+            <View style={styles.paymentOption}>
+              <Text style={styles.paymentText}>💳 CARD</Text>
+            </View>
+          </View>
+        </View> */}
+        {/* Why BMIC Section */}
+        <View style={styles.whyBmicSection}>
           <Image
             source={WhyBmicGif}
             style={styles.whyBmicImage}
             contentFit="cover"
             transition={1000}
           />
-          <View style={[{ gap: 4 }]}>
-            <Text style={[styles.subtitle, { color: "#3fe0c5" }]}>
-              Why BMIC?
-            </Text>
-            <Text style={styles.subtitle}>
+          <View style={styles.whyBmicContent}>
+            <Text style={styles.whyBmicTitle}>Why BMIC?</Text>
+            <Text style={styles.whyBmicSubtitle}>
               Powering the Decentralized Quantum Cloud
             </Text>
-            <Text style={styles.description}>
-              BMIC(BlockchainMicro-Ion Compute) exists to democratize quantum
+            <Text style={styles.whyBmicDescription}>
+              BMIC (Blockchain Micro-Ion Compute) exists to democratize quantum
               computing. Today, quantum power is centralized, prohibitively
               expensive, and largely restricted to a few tech giants. We believe
               in opening access to this revolutionary capability by combining
@@ -134,26 +161,41 @@ export default function MainAppScreen() {
           </View>
         </View>
         {/* Navigation Items */}
-        {navigationItems.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={[styles.containerItem, styles.row, styles.spaceBetween]}
-            onPress={() => onNavigate(item.screenName)}
-          >
-            <Text style={styles.title}>{item.title}</Text>
-            <AntDesign name="right" size={24} color="white" />
-          </TouchableOpacity>
-        ))}
+        <View style={styles.navigationSection}>
+          <Text style={styles.navigationTitle}>Explore BMIC</Text>
+          {navigationItems.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              style={styles.navigationItem}
+              onPress={() => onNavigate(item.screenName)}
+            >
+              <View style={styles.navigationItemContent}>
+                <Text style={styles.navigationItemTitle}>{item.title}</Text>
+                <Text style={styles.navigationItemDescription}>
+                  {item.description}
+                </Text>
+              </View>
+              <AntDesign name="right" size={20} color="#3fe0c5" />
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
-      <TouchableOpacity
-        style={[
-          styles.bottomButton,
-          Platform.OS === "android" ? { marginBottom: insets.bottom } : {},
-        ]}
-        onPress={onSeeMore}
-      >
-        <Text style={styles.subtitle}>See More Information</Text>
-      </TouchableOpacity>
+      {/* Footer Section */}
+      <View style={styles.footerSection}>
+        <TouchableOpacity style={[styles.bottomButton]} onPress={onSeeMore}>
+          <Text style={styles.bottomButtonText}>
+            Join the Quantum Revolution
+          </Text>
+        </TouchableOpacity>
+        {/* <View style={styles.footerLinks}>
+          <Text style={styles.footerText}>support@bmic.ai</Text>
+          <View style={styles.socialLinks}>
+            <Text style={styles.socialText}>Twitter</Text>
+            <Text style={styles.socialText}>Telegram</Text>
+            <Text style={styles.socialText}>Medium</Text>
+          </View>
+        </View> */}
+      </View>
     </SafeAreaView>
   );
 }
@@ -164,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
   },
   row: {
     flexDirection: "row",
@@ -172,55 +214,196 @@ const styles = StyleSheet.create({
   spaceBetween: {
     justifyContent: "space-between",
   },
-  containerItem: {
-    marginVertical: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#71717b",
-    paddingBottom: 24,
+
+  // Hero Section
+  heroSection: {
+    marginBottom: 32,
   },
-  title: {
+  heroTitle: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: "#fff",
+    lineHeight: 42,
+    marginBottom: 8,
+  },
+  heroSubtitle: {
+    fontSize: 20,
+    color: "#3fe0c5",
+    fontWeight: "600",
+    marginBottom: 24,
+  },
+  heroDescription: {
+    fontSize: 16,
+    color: "#ccc",
+    lineHeight: 24,
+    marginTop: 16,
+  },
+
+  // Presale Section
+  presaleSection: {
+    backgroundColor: "#111",
+    borderRadius: 16,
+    padding: 24,
+    marginBottom: 32,
+    borderWidth: 1,
+    borderColor: "#333",
+  },
+  presaleTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  presaleSubtitle: {
+    fontSize: 16,
+    color: "#3fe0c5",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  priceContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  priceLabel: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#fff",
+    marginBottom: 4,
   },
-  subtitle: {
-    fontSize: 18,
+  nextPriceLabel: {
+    fontSize: 14,
+    color: "#3fe0c5",
+  },
+  paymentOptions: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  paymentOption: {
+    backgroundColor: "#222",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#333",
+  },
+  paymentText: {
     color: "#fff",
+    fontSize: 14,
     fontWeight: "500",
   },
-  description: {
-    fontSize: 16,
+
+  // Why BMIC Section
+  whyBmicSection: {
+    marginBottom: 32,
+  },
+  whyBmicContent: {
+    marginTop: 16,
+  },
+  whyBmicTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#3fe0c5",
+    marginBottom: 8,
+  },
+  whyBmicSubtitle: {
+    fontSize: 18,
     color: "#fff",
+    fontWeight: "600",
+    marginBottom: 12,
+  },
+  whyBmicDescription: {
+    fontSize: 16,
+    color: "#ccc",
+    lineHeight: 24,
+  },
+  whyBmicImage: {
+    width: "100%",
+    height: 200,
+    borderRadius: 12,
+  },
+
+  // Navigation Section
+  navigationSection: {
+    marginBottom: 32,
+  },
+  navigationTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 20,
+  },
+  navigationItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#111",
+    padding: 20,
+    borderRadius: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#333",
+  },
+  navigationItemContent: {
+    flex: 1,
+  },
+  navigationItemTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#fff",
+    marginBottom: 4,
+  },
+  navigationItemDescription: {
+    fontSize: 14,
+    color: "#3fe0c5",
+  },
+
+  // Footer Section
+  footerSection: {
+    backgroundColor: "#111",
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#333",
   },
   bottomButton: {
-    borderRadius: 8,
-    backgroundColor: "#9810fa",
-    padding: 16,
-    margin: 16,
+    backgroundColor: "#3fe0c5",
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 12,
     alignItems: "center",
   },
+  bottomButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  footerLinks: {
+    alignItems: "center",
+  },
+  footerText: {
+    color: "#ccc",
+    fontSize: 14,
+    marginBottom: 12,
+  },
+  socialLinks: {
+    flexDirection: "row",
+    gap: 20,
+  },
+  socialText: {
+    color: "#3fe0c5",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+
+  // Video Container
   videoContainer: {
     position: "relative",
-    marginVertical: 8,
+    marginVertical: 16,
+    borderRadius: 12,
+    overflow: "hidden",
   },
   quantumImage: {
     width: "100%",
     height: 200,
-  },
-  playButton: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: [{ translateX: -20 }, { translateY: -20 }],
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  whyBmicImage: {
-    width: "100%",
-    height: 250,
   },
 });
