@@ -7,10 +7,12 @@ import MainEventStack from "./MainEventStack";
 import ProfileStack from "./ProfileStack";
 import NewsStack from "./NewsStack";
 import { ROUTES } from "../consts/Routes";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -22,6 +24,7 @@ const BottomTabNavigator = () => {
           height: Platform.OS === "ios" ? 90 : 70,
           paddingBottom: Platform.OS === "ios" ? 30 : 10,
           paddingTop: 10,
+          marginBottom: Platform.OS === "ios" ? 0 : insets.bottom,
         },
         tabBarActiveTintColor: "#9810fa",
         tabBarInactiveTintColor: "#71717b",

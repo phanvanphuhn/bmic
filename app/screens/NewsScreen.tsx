@@ -9,10 +9,13 @@ import {
   Image,
   ActivityIndicator,
   Alert,
-  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { WebView } from "react-native-webview";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 interface YouTubeVideo {
   id: string;
