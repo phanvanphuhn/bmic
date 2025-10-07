@@ -5,6 +5,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import HomeStack from "./HomeStack";
 import MainEventStack from "./MainEventStack";
 import ProfileStack from "./ProfileStack";
+import NewsStack from "./NewsStack";
 import { ROUTES } from "../consts/Routes";
 
 const Tab = createBottomTabNavigator();
@@ -47,6 +48,16 @@ const BottomTabNavigator = () => {
           tabBarLabel: "Events",
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <AntDesign name="calendar" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={ROUTES.NEWS_TAB}
+        component={NewsStack}
+        options={{
+          tabBarLabel: "News",
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+            <AntDesign name="filetext1" size={size} color={color} />
           ),
         }}
       />

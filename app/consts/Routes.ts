@@ -4,9 +4,11 @@ export const ROUTES = {
   HOME_TAB: 'HomeTab',
   MAIN_EVENT_TAB: 'MainEventTab',
   PROFILE_TAB: 'ProfileTab',
+  NEWS_TAB: 'NewsTab',
   HOME_STACK: 'HomeStack',
   MAIN_EVENT_STACK: 'MainEventStack',
   PROFILE_STACK: 'ProfileStack',
+  NEWS_STACK: 'NewsStack',
   MAIN_APP: 'MainApp',
   THE_PROBLEM: 'TheProblem',
   OUR_SOLUTION: 'OurSolution',
@@ -19,6 +21,7 @@ export const ROUTES = {
   ACCOUNT_SETTINGS: 'AccountSettings',
   NOTIFICATION_SETTINGS: 'NotificationSettings',
   CALENDAR: 'Calendar',
+  NEWS: 'News',
 } as const;
 
 export type RouteNames = typeof ROUTES[keyof typeof ROUTES];
