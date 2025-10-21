@@ -327,6 +327,14 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
             {/* Toggle Auth Mode */}
             <TouchableOpacity
               style={styles.toggleButton}
+              onPress={() => navigation.replace(ROUTES.MAIN_TABS)}
+            >
+              <Text style={styles.toggleText}>Continue as guest</Text>
+            </TouchableOpacity>
+
+            {/* Toggle Auth Mode */}
+            <TouchableOpacity
+              style={styles.toggleButton}
               onPress={toggleAuthMode}
             >
               <Text style={styles.toggleText}>

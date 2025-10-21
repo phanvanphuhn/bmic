@@ -187,14 +187,24 @@ export default function MainAppScreen() {
             Join the Quantum Revolution
           </Text>
         </TouchableOpacity>
-        {/* <View style={styles.footerLinks}>
-          <Text style={styles.footerText}>support@bmic.ai</Text>
+        <View style={[styles.footerLinks, { marginTop: 8 }]}>
           <View style={styles.socialLinks}>
-            <Text style={styles.socialText}>Twitter</Text>
-            <Text style={styles.socialText}>Telegram</Text>
-            <Text style={styles.socialText}>Medium</Text>
+            <TouchableOpacity
+              onPress={() => {
+                void Linking.openURL("https://x.com/BMIC_ai");
+              }}
+            >
+              <Text style={styles.socialText}>Twitter</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                void Linking.openURL("https://t.me/+wjNyzVEaVQxmYjU8");
+              }}
+            >
+              <Text style={styles.socialText}>Telegram</Text>
+            </TouchableOpacity>
           </View>
-        </View> */}
+        </View>
       </View>
     </SafeAreaView>
   );
