@@ -5,7 +5,6 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Dimensions,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
@@ -24,8 +23,6 @@ import { useAuthStore } from "../stores/authStore";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { useEvent } from "expo";
 
-const { width, height } = Dimensions.get("window");
-
 interface AuthScreenProps {
   navigation: any;
 }
@@ -37,7 +34,7 @@ interface AuthFormData {
 }
 
 export default function AuthScreen({ navigation }: AuthScreenProps) {
-  const { isSignUp, setSignUpMode, signIn, signUp, emailExists } =
+  const { isSignUp, setSignUpMode, signIn, signUp, emailExists, setGuest } =
     useAuthStore();
 
   const {
@@ -71,7 +68,7 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
     navigation.replace(ROUTES.MAIN_TABS);
   };
 
-  const onSubmit = (data: AuthFormData) => {
+  const onSubmit = async (data: AuthFormData) => {
     if (isSignUp) {
       // Sign up logic
       if (data.password !== data.confirmPassword) {
@@ -113,23 +110,30 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
         });
       }
     } else {
-      // Sign in logic
-      const success = signIn(data.email, data.password);
-      if (success) {
-        // Navigate immediately
-        navigation.replace(ROUTES.MAIN_TABS);
+      // Sign in logic (signIn is async and may call remote)
+      try {
+        const success = await signIn(data.email, data.password);
+        if (success) {
+          navigation.replace(ROUTES.MAIN_TABS);
 
-        // Show success toast
-        Toast.show({
-          type: "success",
-          text1: "Welcome back!",
-          text2: "Sign in successful",
-        });
-      } else {
+          Toast.show({
+            type: "success",
+            text1: "Welcome back!",
+            text2: "Sign in successful",
+          });
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Invalid email or password",
+          });
+        }
+      } catch (err) {
+        console.error("Sign in error:", err);
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: "Invalid email or password",
+          text2: "An error occurred while signing in",
         });
       }
     }
@@ -327,7 +331,11 @@ export default function AuthScreen({ navigation }: AuthScreenProps) {
             {/* Toggle Auth Mode */}
             <TouchableOpacity
               style={styles.toggleButton}
-              onPress={() => navigation.replace(ROUTES.MAIN_TABS)}
+              onPress={() => {
+                // mark as guest then navigate
+                setGuest(true);
+                navigation.replace(ROUTES.MAIN_TABS);
+              }}
             >
               <Text style={styles.toggleText}>Continue as guest</Text>
             </TouchableOpacity>

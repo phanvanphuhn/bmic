@@ -8,11 +8,13 @@ import ProfileStack from "./ProfileStack";
 import NewsStack from "./NewsStack";
 import { ROUTES } from "../consts/Routes";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuthStore } from "../stores/authStore";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   const insets = useSafeAreaInsets();
+  const { isGuest } = useAuthStore();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -44,26 +46,30 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name={ROUTES.MAIN_EVENT_TAB}
-        component={MainEventStack}
-        options={{
-          tabBarLabel: "Events",
-          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-            <AntDesign name="calendar" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={ROUTES.NEWS_TAB}
-        component={NewsStack}
-        options={{
-          tabBarLabel: "News",
-          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-            <AntDesign name="filetext1" size={size} color={color} />
-          ),
-        }}
-      />
+      {!isGuest && (
+        <Tab.Screen
+          name={ROUTES.MAIN_EVENT_TAB}
+          component={MainEventStack}
+          options={{
+            tabBarLabel: "Events",
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+              <AntDesign name="calendar" size={size} color={color} />
+            ),
+          }}
+        />
+      )}
+      {!isGuest && (
+        <Tab.Screen
+          name={ROUTES.NEWS_TAB}
+          component={NewsStack}
+          options={{
+            tabBarLabel: "News",
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+              <AntDesign name="filetext1" size={size} color={color} />
+            ),
+          }}
+        />
+      )}
       <Tab.Screen
         name={ROUTES.PROFILE_TAB}
         component={ProfileStack}

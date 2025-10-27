@@ -6,15 +6,20 @@ import Toast from "react-native-toast-message";
 import AuthScreen from "./app/screens/AuthScreen";
 import BottomTabNavigator from "./app/navigation/BottomTabNavigator";
 import { ROUTES } from "./app/consts/Routes";
+import { useAuthStore } from "./app/stores/authStore";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  const { currentUser, isGuest } = useAuthStore();
+
+  const initialRoute = currentUser || isGuest ? ROUTES.MAIN_TABS : ROUTES.AUTH;
+
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer key={initialRoute}>
         <Stack.Navigator
-          initialRouteName={ROUTES.AUTH}
+          initialRouteName={initialRoute}
           screenOptions={{
             headerShown: false,
             cardStyle: { backgroundColor: "#000" },
