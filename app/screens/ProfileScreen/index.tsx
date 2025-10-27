@@ -21,7 +21,6 @@ import { Image as ExpoImage } from "expo-image";
 import { ROUTES } from "../../consts/Routes";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../../stores/authStore";
-import AppInfoScreen from "../AppInfoScreen";
 
 const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
@@ -87,12 +86,12 @@ const ProfileScreen = () => {
   };
 
   const onLogout = () => {
-    // Trigger logout actions immediately
-    signOut();
     navigation.reset({
       index: 0,
       routes: [{ name: ROUTES.AUTH as never }],
     });
+
+    signOut();
 
     // Show success toast
     Toast.show({

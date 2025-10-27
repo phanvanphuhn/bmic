@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
+
   Modal,
 } from "react-native";
 import {
@@ -15,7 +15,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const { width } = Dimensions.get("window");
+
 
 // BMIC Roadmap events based on https://bmic.ai/
 // We anchor events at representative dates within roadmap quarters.
@@ -158,9 +158,7 @@ const CalendarScreen = () => {
     }, 100);
   };
 
-  const scrollToCurrentMonth = () => {
-    scrollToMonth(new Date().getMonth());
-  };
+
 
   const events = useMemo(() => {
     return [...ROADMAP_EVENTS].sort(
@@ -273,6 +271,18 @@ const CalendarScreen = () => {
             {day}
           </Text>
         </TouchableOpacity>
+      );
+    }
+
+    // Pad trailing empty cells so last row always has 7 columns
+    const totalCells = firstDay + daysInMonth;
+    const trailing = (7 - (totalCells % 7)) % 7;
+    for (let t = 0; t < trailing; t++) {
+      days.push(
+        <View
+          key={`trailing-empty-${monthIndex}-${t}`}
+          style={styles.dayCell}
+        />
       );
     }
 
@@ -522,9 +532,10 @@ const styles = StyleSheet.create({
   weekHeader: {
     flexDirection: "row",
     marginBottom: 8,
+    paddingHorizontal: 8, // align with calendarGrid padding
   },
   weekDayText: {
-    flex: 1,
+    flexBasis: "14.2857%", // 1/7 columns
     textAlign: "center",
     fontSize: 14,
     fontWeight: "600",
@@ -539,7 +550,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   dayCell: {
-    width: (width - 48) / 7, // 7 days per week, accounting for padding
+    flexBasis: "14.2857%", // ensure exactly 7 columns
     height: 40,
     alignItems: "center",
     justifyContent: "center",
